@@ -1,0 +1,21 @@
+POST http://localhost:3000/api/user/register
+Content-Type: application/json
+
+{
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "johndoe@example.com",
+    "username": "johndoe",
+    "password": "johndoePass",
+    "repeatPassword": "johndoePass"
+}
+
+###
+
+POST http://localhost:3000/api/user/login
+Content-Type: application/json
+
+{
+    "username": "John Doe",
+    "password": "johndoePass"
+}
