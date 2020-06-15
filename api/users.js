@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const userController = require('../controllers/users');
-const { app } = require('firebase');
+const auth = require('../utils/auth');
 
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 
 module.exports = router;
-
