@@ -1,22 +1,22 @@
-POST http://localhost:3000/api/user/register HTTP/1.1
+POST http://{{host}}/api/user/register HTTP/1.1
 Content-Type: application/json
 
 {
-    "firstname": "John",
-    "lastname": "Doe",
-    "email": "johndoe@example.com",
-    "username": "johndoe",
-    "password": "johndoePass",
-    "repeatPassword": "johndoePass"
+    "firstname": "{{registerFirstName}}",
+    "lastname": "{{registerLastName}}",
+    "email": "{{registerEmail}}",
+    "username": "{{registerUsername}}",
+    "password": "{{registerPassword}}",
+    "repeatPassword": "{{registerRepeatPassword}}"
 }
 
 ###
-POST http://localhost:3000/api/user/login HTTP/1.1
+POST http://{{host}}/api/user/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "johndoe@example.com",
-    "password": "johndoePass"
+    "email": "{{loginEmail}}",
+    "password": "{{loginPassword}}"
 }
 
 ###
