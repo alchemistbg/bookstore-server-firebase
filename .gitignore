@@ -1,2 +1,4 @@
 node_modules
-database/config.json
+api/tests/token.txt
+database/adminConfig.json
+database/basicConfig.json
