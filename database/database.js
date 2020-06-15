@@ -1,4 +1,12 @@
-const config = require('./config.json');
+const firebaseAdminConfig = require('./adminConfig.json');
+const firebaseBasicConfig = require('./basicConfig.json');
 
-const firebase = require('firebase');
-exports.database = firebase.initializeApp(config);
+const firebaseAdmin = require('firebase-admin');
+exports.firebaseAdmin = firebaseAdmin.initializeApp({
+	credential: firebaseAdmin.credential.cert(firebaseAdminConfig),
+	databaseURL: "https://react-firebase-e95ce.firebaseio.com"
+});
+exports.firestore = firebaseAdmin.firestore();
+
+const fb = require('firebase');
+exports.firebase = fb.initializeApp(firebaseBasicConfig);
