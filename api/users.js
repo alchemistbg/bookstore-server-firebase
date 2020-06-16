@@ -7,4 +7,7 @@ const auth = require('../utils/auth');
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 
+router.get('/:username', auth, userController.getProfile);
+router.patch('/:username', auth, userController.editProfile);
+
 module.exports = router;
