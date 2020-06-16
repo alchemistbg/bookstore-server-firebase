@@ -74,7 +74,34 @@ module.exports = {
 	},
 
 	getProfile: (req, res, next) => {
-		const userData = {};
+		// const userData = {};
+		// console.log(req.user.username);
+		// console.log(req.params.username);
+		if (req.user.username != req.params.username) {
+			res.json({
+				message: "Public profile"
+			});
+		} else {
+			res.json({
+				message: "Private profile"
+			});
+		}
+	},
+
+	editProfile: (req, res, next) => {
+		// const userData = {};
+		if (req.user.username != req.params.username) {
+			res.json({
+				message: "KUSH"
+			});
+		} else {
+			res.json({
+				message: "Edit user profile",
+				data: {
+					...req.body
+				}
+			});
+		}
 	}
 
 
