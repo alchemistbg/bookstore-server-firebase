@@ -1,8 +1,8 @@
-GET http://{{host}}/api/book HTTP/1.1
+GET http://{{host}}/api/books HTTP/1.1
 Content-Type: application/json
 
 ###
-POST http://{{host}}/api/book/ HTTP/1.1
+POST http://{{host}}/api/books HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
@@ -21,5 +21,33 @@ Authorization: Bearer {{token}}
 }
 
 ###
-GET http://{{host}}/api/book/123 HTTP/1.1
+GET http://{{host}}/api/books/9780547928227 HTTP/1.1
 Content-Type: application/json
+
+###
+PATCH http://{{host}}/api/books/9780547928227 HTTP/1.1
+Content-Type: application/json
+
+{
+    "updateInfo": "updateInfo"
+}
+
+###
+DELETE http://{{host}}/api/books/9780547928227 HTTP/1.1
+# Content-Type: application/json
+
+###
+POST http://{{host}}/api/books/9780547928227/comments HTTP/1.1
+Content-Type: application/json
+
+{
+    "commentText": "Comment text"
+}
+
+###
+POST http://{{host}}/api/books/9780547928227/likes HTTP/1.1
+Content-Type: application/json
+
+# {
+#     "": ""
+# }
