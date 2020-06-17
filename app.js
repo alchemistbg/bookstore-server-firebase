@@ -6,8 +6,8 @@ const bookRouter = require('./api/books');
 
 app.use(express.json());
 
-app.use('/api/user', userRouter);
-app.use('/api/book', bookRouter);
+app.use('/api/users', userRouter);
+app.use('/api/books', bookRouter);
 
 app.use((error, req, res, next) => {
 	console.log(error);
