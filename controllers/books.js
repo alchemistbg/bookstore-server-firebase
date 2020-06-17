@@ -70,7 +70,11 @@ module.exports = {
 
 	},
 
-	deleteBook: (req, res, next) => {
+	likeBook: (req, res, next) => {
+		const bookId = req.params.bookId;
+		res.json({
+			message: `${bookId} liked!`
+		});
 
 	}
 }
