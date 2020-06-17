@@ -49,7 +49,7 @@ module.exports = {
 					});
 			})
 			.catch((fbError) => {
-				fbError.status = 400;
+				fbError.status = fbError.status || 400;
 				next(fbError);
 			});
 	},
@@ -68,7 +68,7 @@ module.exports = {
 					});
 			})
 			.catch((fbError) => {
-				fbError.status = 400;
+				fbError.status = fbError.status || 400;
 				next(fbError);
 			});
 	},
