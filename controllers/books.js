@@ -62,7 +62,11 @@ module.exports = {
 		});
 	},
 
-	updateBook: (req, res, next) => {
+	commentBook: (req, res, next) => {
+		const bookId = req.params.bookId;
+		res.json({
+			message: `${bookId} commented!`
+		});
 
 	},
 
