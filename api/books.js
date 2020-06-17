@@ -8,8 +8,8 @@ router.get('/', booksController.getAllBooks);
 
 //CRUD operations on book
 router.post('/', auth, booksController.addBook);
-router.get('/:bookId', booksController.getBook);
-router.patch('/:bookId', auth, booksController.updateBook);
-router.delete('/:bookId', auth, booksController.deleteBook);
+router.get('/:isbn', booksController.getBook);
+router.patch('/:isbn', auth, booksController.updateBook);
+router.delete('/:isbn', auth, booksController.deleteBook);
 
 module.exports = router;
