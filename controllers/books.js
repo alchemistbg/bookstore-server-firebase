@@ -36,6 +36,22 @@ module.exports = {
 	},
 
 	getBook: (req, res, next) => {
+		const isbn = req.params.isbn;
+		firestore.doc(`/books/${isbn}`).get()
+			.then((book) => {
+				res.status(200).json(book.data());
+			})
+			.catch((arguments) => {
+
+			});
+	},
+
+	updateBook: (req, res, next) => {
+		const bookId = req.params.bookId;
+		res.json({
+			message: `${bookId} updated!`
+		});
+	},
 		const bookId = req.params.bookId;
 		res.send(`${bookId} details!`);
 	},
