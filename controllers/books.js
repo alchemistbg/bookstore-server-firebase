@@ -54,8 +54,12 @@ module.exports = {
 			message: `${bookId} updated!`
 		});
 	},
+
+	deleteBook: (req, res, next) => {
 		const bookId = req.params.bookId;
-		res.send(`${bookId} details!`);
+		res.json({
+			message: `${bookId} deleted!`
+		});
 	},
 
 	updateBook: (req, res, next) => {
