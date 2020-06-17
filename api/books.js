@@ -12,4 +12,8 @@ router.get('/:isbn', booksController.getBook);
 router.patch('/:isbn', auth, booksController.updateBook);
 router.delete('/:isbn', auth, booksController.deleteBook);
 
+router.post('/:isbn/comments', auth, booksController.commentBook);
+// router.post('/:isbn/favorites', booksController.likeBook);
+router.post('/:isbn/likes', booksController.likeBook);
+
 module.exports = router;
