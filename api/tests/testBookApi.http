@@ -6,6 +6,20 @@ POST http://{{host}}/api/book/ HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
+{
+    "title": "LOTR 1",
+    "author": "J.R.R. Tolkien",
+    "isbn": "9780547928227",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, vero doloribus dolore sequi temporibus optio sed soluta debitis laudantium perferendis! Voluptate ipsam saepe quisquam. Dolores ex assumenda dolorem exercitationem deleniti.",
+    "pages": 320,
+    "price": 16.99,
+    "currency": "USD",
+    "qty": 10,
+    "sales": 0,
+    "likes": 0,
+    "comments": 0
+}
+
 ###
 GET http://{{host}}/api/book/123 HTTP/1.1
 Content-Type: application/json
