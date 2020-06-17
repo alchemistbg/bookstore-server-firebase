@@ -1,3 +1,5 @@
+const { firebaseAdmin, firestore, firebase } = require('../database/database');
+
 module.exports = {
 	getAllBooks: (req, res, next) => {
 		res.send("All books!");
