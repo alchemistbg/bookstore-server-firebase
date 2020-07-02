@@ -7,6 +7,12 @@ const bookRouter = require('./api/books');
 app.use(express.json());
 app.set('query parser', 'simple');
 
+app.use((req, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+	next();
+});
 
 app.use('/api/users', userRouter);
 app.use('/api/books', bookRouter);
