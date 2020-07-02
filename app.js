@@ -5,6 +5,8 @@ const userRouter = require('./api/users');
 const bookRouter = require('./api/books');
 
 app.use(express.json());
+app.set('query parser', 'simple');
+
 
 app.use('/api/users', userRouter);
 app.use('/api/books', bookRouter);
