@@ -19,12 +19,13 @@ app.use('/api/books', bookRouter);
 
 app.use((error, req, res, next) => {
 	console.log(error);
+	console.log(error.message);
 	const status = error.status || 500;
 	const { code, message } = error;
 	res.status(status).json({ code, message });
 	next();
 })
 
-app.listen(3000, () => {
-	console.log('App listening on port 3000!');
+app.listen(3001, () => {
+	console.log('App listening on port 3001!');
 });
