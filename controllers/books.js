@@ -2,7 +2,32 @@ const { firebaseAdmin, firestore, firebase } = require('../database/database');
 
 module.exports = {
 	getAllBooks: (req, res, next) => {
-		res.send("All books!");
+		const books = [];
+		firestore.collection('/books').select('title', 'author', 'price').get()
+			.then((booksCollection) => {
+				// console.log(booksCollection.size)
+				if (booksCollection.size === 0) {
+					return res.status(200).json({
+						message: "Bookstore is Empty"
+					});
+				}
+				console.log(booksCollection)
+				booksCollection.forEach((book) => {
+					books.push(book.data())
+				});
+				// console.log(books);
+				//This returns array
+				// return res.status(200).json(books);
+				// This returns object that holds array
+				return res.status(200).json({
+					size: books.length,
+					books: [...books]
+				});
+			})
+			.catch((error) => {
+				console.log(error)
+			});
+		// res.send("All books!");
 	},
 
 	addBook: (req, res, next) => {
