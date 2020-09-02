@@ -102,9 +102,24 @@ module.exports = {
 	},
 
 	deleteBook: (req, res, next) => {
-		const bookId = req.params.bookId;
-		res.json({
-			message: `${bookId} deleted!`
+		if (req.user.role === 'admin') {
+			const isbn = req.params.isbn;
+			firestore.doc(`/books/${isbn}`).delete()
+				.then(() => {
+					console.log("DELETED")
+					res.status(204).json({
+						message: `${isbn} deleted!`
+					});
+				})
+				.catch((fbError) => {
+					next(fbError);
+				});
+		} else {
+			res.status(403).json({
+				message: "Unauthorized"
+			});
+		}
+	},
 		});
 	},
 
