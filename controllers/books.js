@@ -64,12 +64,33 @@ module.exports = {
 
 	getBook: (req, res, next) => {
 		const isbn = req.params.isbn;
+		const bookInfo = {};
+		// console.log(req.query);
+		const { orderDirection } = req.query || "desc";
 		firestore.doc(`/books/${isbn}`).get()
-			.then((book) => {
-				res.status(200).json(book.data());
+			.then((bookSnapshot) => {
+				if (!bookSnapshot.exists) {
+					const error = new Error("Invalid data");
+					error.status = 404;
+					error.code = "book/book-not-found";
+					error.message = "Book not found";
+					throw error;
+				} else {
+					bookInfo.data = bookSnapshot.data();
+					return firestore.collection("comments").where('bookId', '==', isbn).orderBy("createdAt", orderDirection).get();
+				}
 			})
-			.catch((arguments) => {
-
+			.then((comments) => {
+				bookInfo.comments = [];
+				comments.forEach((comment) => {
+					bookInfo.comments.push(comment.data());
+					// console.log(comment.data());
+				});
+				res.status(200).json(bookInfo);
+			})
+			.catch((fsError) => {
+				fsError.status = fsError.status || 400;
+				next(fsError)
 			});
 	},
 
