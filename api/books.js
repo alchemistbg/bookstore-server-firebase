@@ -12,6 +12,8 @@ router.get('/:isbn', booksController.getBook);
 router.patch('/:isbn', auth, booksController.updateBook);
 router.delete('/:isbn', auth, booksController.deleteBook);
 
+// CRUD operations on comments
+router.get('/:isbn/comments', booksController.getComments);
 router.post('/:isbn/comments', auth, booksController.postComment);
 // router.post('/:isbn/favorites', booksController.likeBook);
 router.post('/:isbn/likes', booksController.likeBook);
