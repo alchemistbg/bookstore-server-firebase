@@ -15,7 +15,10 @@ router.delete('/:isbn', auth, booksController.deleteBook);
 // CRUD operations on comments
 router.get('/:isbn/comments', booksController.getComments);
 router.post('/:isbn/comments', auth, booksController.postComment);
+
+// CRUD operations on favorites - TODO
 // router.post('/:isbn/favorites', booksController.likeBook);
+
 // CRUD operations on likes
 router.get('/:isbn/likes', auth, booksController.getLikes);
 router.post('/:isbn/likes', auth, booksController.postLike);
