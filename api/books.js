@@ -18,5 +18,7 @@ router.post('/:isbn/comments', auth, booksController.postComment);
 // router.post('/:isbn/favorites', booksController.likeBook);
 // CRUD operations on likes
 router.get('/:isbn/likes', auth, booksController.getLikes);
+router.post('/:isbn/likes', auth, booksController.postLike);
+router.delete('/:isbn/likes', auth, booksController.deleteLike);
 
 module.exports = router;
