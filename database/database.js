@@ -6,6 +6,7 @@ exports.firebaseAdmin = firebaseAdmin.initializeApp({
 	credential: firebaseAdmin.credential.cert(firebaseAdminConfig),
 	databaseURL: "https://react-firebase-e95ce.firebaseio.com"
 });
+
 exports.firestore = firebaseAdmin.firestore();
 
 const fb = require('firebase');
