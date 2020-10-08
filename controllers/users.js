@@ -56,7 +56,6 @@ module.exports = {
 
 	login: (req, res, next) => {
 		const userData = { ...req.body };
-		// console.log(userData);
 
 		let user = {};
 		let idToken = null;
@@ -86,7 +85,6 @@ module.exports = {
 					});
 				})
 				.catch((fsError) => {
-					// console.error(fbError);
 					fsError.status = fsError.status || 400;
 					next(fsError);
 				});
@@ -106,10 +104,9 @@ module.exports = {
 						user: userQuery.docs[0].data()
 					});
 			})
-			.catch((fbError) => {
-					// console.log(fbError)
-				fbError.status = fbError.status || 400;
-				next(fbError);
+				.catch((fsError) => {
+					fsError.status = fsError.status || 400;
+					next(fsError);
 			});
 		}
 	},
