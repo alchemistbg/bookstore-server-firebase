@@ -48,9 +48,9 @@ module.exports = {
 						token
 					});
 			})
-			.catch((fbError) => {
-				fbError.status = fbError.status || 400;
-				next(fbError);
+			.catch((fsError) => {
+				fsError.status = fsError.status || 400;
+				next(fsError);
 			});
 	},
 
