@@ -55,22 +55,63 @@ module.exports = {
 	},
 
 	login: (req, res, next) => {
-		const user = { ...req.body }
-		firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+		const userData = { ...req.body };
+		// console.log(userData);
+
+		let user = {};
+		let idToken = null;
+
+		if (!userData.loginID.includes("@")) {
+			console.log(userData);
+			firestore.doc(`/users/${userData.loginID}`).get()
+				.then((userSnapshot) => {
+					if (!userSnapshot.exists) {
+						return res.status(404).json({
+							message: "Unknown username"
+						});
+					}
+					else {
+						user = { ...userSnapshot.data() }
+						console.log(user);
+						return firebase.auth().signInWithEmailAndPassword(userSnapshot.data().email, userData.password)
+
+					}
+				}).then((userData) => {
+					return userData.user.getIdToken()
+				})
+				.then((token) => {
+					res.status(200).json({
+						token,
+						user
+					});
+				})
+				.catch((fsError) => {
+					// console.error(fbError);
+					fsError.status = fsError.status || 400;
+					next(fsError);
+				});
+		} else {
+			console.log(userData.loginID)
+			firebase.auth().signInWithEmailAndPassword(userData.loginID, userData.password)
 			.then((userData) => {
 				return userData.user.getIdToken();
 			})
 			.then((token) => {
-				res
-					.status(200)
-					.json({
-						token
+					idToken = token;
+					return firestore.collection(`users`).where("email", "==", userData.loginID).get();
+				})
+				.then((userQuery) => {
+					res.status(200).json({
+						idToken,
+						user: userQuery.docs[0].data()
 					});
 			})
 			.catch((fbError) => {
+					// console.log(fbError)
 				fbError.status = fbError.status || 400;
 				next(fbError);
 			});
+		}
 	},
 
 	getProfile: (req, res, next) => {
