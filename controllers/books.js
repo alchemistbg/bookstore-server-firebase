@@ -31,34 +31,35 @@ module.exports = {
 	},
 
 	addBook: (req, res, next) => {
-		// console.log(req.user)
-		if (req.user.role === 'admin') {
-			const newBook = { ...req.body };
-			firestore.doc(`/books/${newBook.isbn}`).get()
-				.then((book) => {
-					if (book.exists) {
-						const error = new Error("Invalid data");
-						error.status = 400;
-						error.code = "book/isbn-already-in-use";
-						error.message = "Book with this ISBN already exists!";
-						throw error;
+		const { isbn } = req.body;
+		let newBook = {};
+
+		if (req.user.role !== 'admin') {
+			next(new error(userMessages.unauthorized));
 					} else {
-						return firestore.doc(`/books/${newBook.isbn}`).set(newBook)
+			firestore.doc(`/books/${isbn}`).get()
+				.then((bookSnapshot) => {
+					if (bookSnapshot.exists) {
+						next(new error(bookMessages.bookExists));
+					} else {
+						newBook = {
+							...req.body,
+							addedAt: new Date().toISOString(),
+							updatedAt: new Date().toISOString()
+						};
+						return firestore.doc(`/books/${isbn}`).set(newBook);
 					}
 				})
 				.then(() => {
 					res.status(201).json({
-						message: 'OK'
+						message: 'Book created successfully',
+						book: newBook
 					});
 				})
-				.catch((fbError) => {
-					fbError.status = fbError.status || 400;
-					next(fbError);
+				.catch((fsError) => {
+					fsError.status = fsError.status || 400;
+					next(fsError);
 				});
-		} else {
-			return res.status(403).json({
-				message: "Unauthorized"
-			});
 		}
 	},
 
