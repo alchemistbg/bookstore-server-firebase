@@ -206,18 +206,45 @@ module.exports = {
 				next(fsError);
 			});
 	},
+
+	deleteComments: (req, res, next) => {
+
 		if (req.user.role === 'admin') {
-			const isbn = req.params.isbn;
-			firestore.doc(`/books/${isbn}`).delete()
+			next(new error(userMessages.unauthorized));
+		} else {
+			const { isbn, commentId } = req.params;
+			firestore.doc(`comments/${commentId}`).get()
+				.then((commentSnapshot) => {
+					if (!commentSnapshot.exists) {
+						next(new error(commentMessages.commentNotFound));
+					} else {
+						return commentSnapshot.ref.delete();
+					}
+				})
 				.then(() => {
-					console.log("DELETED")
+					return firestore.doc(`books/${isbn}`).get();
+				})
+				.then((bookSnapshot) => {
+					if (!bookSnapshot.exists) {
+						next(new error(bookMessages.bookNotFound));
+					} else {
+						let bookCommentsCount = bookSnapshot.data().comments;
+						bookCommentsCount = bookCommentsCount - 1;
+						return bookSnapshot.ref.update({ comments: bookCommentsCount });
+					}
+				})
+				.then(() => {
+					// The response is not sended to the client because of the status code
+					console.log(`Comment with id ${commentId} deleted successfully!`);
 					res.status(204).json({
-						message: `${isbn} deleted!`
+						message: `Comment with id ${commentId} deleted successfully!`
 					});
 				})
-				.catch((fbError) => {
-					next(fbError);
+				.catch((fsError) => {
+					next(fsError);
 				});
+		}
+	},
 		} else {
 			res.status(403).json({
 				message: "Unauthorized"
