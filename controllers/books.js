@@ -30,7 +30,7 @@ module.exports = {
 		// res.send("All books!");
 	},
 
-	addBook: (req, res, next) => {
+	postBook: (req, res, next) => {
 		const { isbn } = req.body;
 		let newBook = {};
 
