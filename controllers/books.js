@@ -189,6 +189,23 @@ module.exports = {
 				next(fsError);
 			});
 	},
+
+	getComments: (req, res, next) => {
+		const { isbn } = req.params;
+		let bookComments = {};
+
+		firestore.collection('comments').where('bookId', '==', isbn).get()
+			.then((comments) => {
+				comments.forEach((comment) => {
+					// console.log(comment.id, comment.data());
+					bookComments[comment.id] = comment.data();
+				});
+				res.status(200).json(bookComments);
+			})
+			.catch((fsError) => {
+				next(fsError);
+			});
+	},
 		if (req.user.role === 'admin') {
 			const isbn = req.params.isbn;
 			firestore.doc(`/books/${isbn}`).delete()
