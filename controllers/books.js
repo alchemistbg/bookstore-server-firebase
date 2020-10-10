@@ -128,6 +128,67 @@ module.exports = {
 	},
 
 	deleteBook: (req, res, next) => {
+		const isbn = req.params.isbn;
+
+		if (req.user.role !== 'admin') {
+			next(new error(userMessages.unauthorized));
+		} else {
+			firestore.doc(`/books/${isbn}`).get()
+				.then((bookSnapshot) => {
+					if (!bookSnapshot.exists) {
+						next(new error(bookMessages.bookNotFound));
+					} else {
+						return bookSnapshot.ref.delete();
+					}
+				}).then(() => {
+					console.log(`Book with ${isbn} deleted!`);
+					// The response is not sended to the client because of the status code
+					res.status(204).json({
+						message: `Book with ${isbn} deleted!`
+					});
+				})
+				.catch((fsError) => {
+					next(fsError);
+				});
+		}
+	},
+	postComment: (req, res, next) => {
+		const { isbn } = req.params;
+		const { username } = req.user;
+		const { commentText } = req.body;
+
+		let commentId;
+		const newComment = {};
+
+		firestore.doc(`/books/${isbn}`).get()
+			.then((bookSnapshot) => {
+				if (!bookSnapshot.exists) {
+					next(new error(bookMessages.bookNotFound));
+				} else {
+					newComment.username = username;
+					newComment.bookId = isbn;
+					newComment.bookTitle = bookSnapshot.data().title;
+					newComment.commentText = commentText;
+					newComment.createdAt = new Date().toISOString();
+
+					let bookCommentsCount = bookSnapshot.data().comments;
+					bookCommentsCount = bookCommentsCount + 1;
+					return bookSnapshot.ref.update({ comments: bookCommentsCount });
+				};
+			})
+			.then(() => {
+				return firestore.collection(`comments`).add(newComment);
+			})
+			.then(() => {
+				res.status(201).json({
+					message: `Comment created successfully.`,
+					newComment
+				});
+			})
+			.catch((fsError) => {
+				next(fsError);
+			});
+	},
 		if (req.user.role === 'admin') {
 			const isbn = req.params.isbn;
 			firestore.doc(`/books/${isbn}`).delete()
