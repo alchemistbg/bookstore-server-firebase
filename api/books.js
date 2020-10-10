@@ -7,7 +7,7 @@ const auth = require('../utils/auth');
 router.get('/', booksController.getAllBooks);
 
 //CRUD operations on book
-router.post('/', auth, booksController.addBook);
+router.post('/', auth, booksController.postBook);
 router.get('/:isbn', booksController.getBook);
 router.patch('/:isbn', auth, booksController.updateBook);
 router.delete('/:isbn', auth, booksController.deleteBook);
