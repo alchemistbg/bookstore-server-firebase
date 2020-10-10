@@ -96,10 +96,35 @@ module.exports = {
 	},
 
 	updateBook: (req, res, next) => {
-		const bookId = req.params.bookId;
-		res.json({
-			message: `${bookId} updated!`
+		const { isbn } = req.body;
+		let updatedBook = {};
+
+		if (req.user.role !== 'admin') {
+			next(new error(userMessages.unauthorized));
+		} else {
+			firestore.doc(`/books/${isbn}`).get()
+				.then((bookSnapshot) => {
+					if (!bookSnapshot.exists) {
+						next(new error(bookMessages.bookNotFound));
+					} else {
+						updatedBook = {
+							...req.body,
+							updatedAt: new Date().toISOString()
+						};
+						return firestore.doc(`/books/${isbn}`).update(updatedBook);
+					}
+				})
+				.then(() => {
+					res.status(201).json({
+						message: 'Book created successfully',
+						book: updatedBook
 		});
+				})
+				.catch((fsError) => {
+					fsError.status = fsError.status || 400;
+					next(fsError);
+				});
+		};
 	},
 
 	deleteBook: (req, res, next) => {
