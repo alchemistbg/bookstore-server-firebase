@@ -16,7 +16,7 @@ module.exports = {
         message: 'User is not authenticated!'
     },
 
-    unauthorized: {
+    userUnauthorized: {
         name: 'Unauthorized',
         status: 403,
         code: 'user/user-unauthorized',
