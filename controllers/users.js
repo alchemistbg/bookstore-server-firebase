@@ -1,4 +1,6 @@
 const { firebaseAdmin, firestore, firebase } = require('../database/database');
+const error = require('../utils/errors/error');
+const userMessages = require('../utils/errors/userErrors');
 
 module.exports = {
 	register: (req, res, next) => {
