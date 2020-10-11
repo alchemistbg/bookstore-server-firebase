@@ -21,5 +21,12 @@ module.exports = {
         status: 403,
         code: 'user/user-unauthorized',
         message: 'User is not authorized!'
+    },
+
+    userInvalidToken: {
+        name: 'Invalid token',
+        status: 403,
+        code: 'auth/user-invalid-token',
+        message: 'Error while verifying token'
     }
 }
