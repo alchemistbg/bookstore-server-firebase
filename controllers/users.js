@@ -126,18 +126,29 @@ module.exports = {
 		}
 	},
 
-	editProfile: (req, res, next) => {
-		// const userData = {};
-		if (req.user.username != req.params.username) {
-			res.json({
-				message: "KUSH"
-			});
+	updateProfile: (req, res, next) => {
+		const updatedUserData = { ...req.body };
+
+		if (req.user.username !== req.params.username) {
+			next(new error(userMessages.userUnauthenticated));
 		} else {
+			firestore.doc(`users/${req.user.username}`).get()
+				.then((userSnapshot) => {
+					if (!userSnapshot.exists) {
+						next(new error("", 1000, "", ""));
+					}
+					else {
+						return userSnapshot.ref.update(updatedUserData);
+					}
+				})
+				.then((arguments) => {
 			res.json({
 				message: "Edit user profile",
-				data: {
-					...req.body
-				}
+						updatedUserData
+					});
+				})
+				.catch((fsError) => {
+					next(fsError);
 			});
 		}
 	}
