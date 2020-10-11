@@ -9,7 +9,7 @@ module.exports = {
     //     message:''
     // },
 
-    unauthenticated: {
+    userUnauthenticated: {
         name: 'Unauthenticated',
         status: 401,
         code: 'user/user-unauthenticated',
