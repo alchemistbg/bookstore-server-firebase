@@ -1,3 +1,4 @@
+# Register user
 POST http://{{host}}/api/users/register HTTP/1.1
 Content-Type: application/json
 
@@ -11,24 +12,39 @@ Content-Type: application/json
 }
 
 ###
+# Login as admin
 POST http://{{host}}/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-    "email": "{{loginEmail}}",
-    "password": "{{loginPassword}}"
+    "loginID": "{{adminLoginID}}",
+    "password": "{{adminLoginPassword}}"
 }
 
 ###
-GET http://{{host}}/api/users/johndoe HTTP/1.1
+# Login as user
+POST http://{{host}}/api/users/login HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer {{token}}
- 
-###
-PATCH http://{{host}}/api/users/johndoe HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{token}}
 
 {
-    "name": "Unufri"
+    "loginID": "{{userLoginID}}",
+    "password": "{{userLoginPassword}}"
+}
+
+###
+# Read user profile
+GET http://{{host}}/api/users/johndoe HTTP/1.1
+# GET http://{{host}}/api/users/janedoe HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+# Authorization: Bearer {{adminToken}}
+ 
+###
+# Edit user profile
+PATCH http://{{host}}/api/users/johndoe HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+{
+    "firstname": "John"
 }
