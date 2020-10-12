@@ -28,5 +28,12 @@ module.exports = {
         status: 403,
         code: 'auth/user-invalid-token',
         message: 'Error while verifying token'
+    },
+
+    userUsernameInUse: {
+        name: 'Invalid username',
+        status: 400,
+        code: 'auth/username-already-in-use',
+        message: 'The username is already in use!'
     }
 }
