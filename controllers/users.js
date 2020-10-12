@@ -9,13 +9,7 @@ module.exports = {
 		firestore.doc(`/users/${newUser.username}`).get()
 			.then((user) => {
 				if (user.exists) {
-					const error = new Error("Invalid data");
-					error.status = 400;
-					error.code = "auth/username-already-in-use";
-					error.message = "The username is already in use!";
-					throw error;
-					// next(error);
-					// return;
+					next(new error(userMessages.userUsernameInUse));
 				} else {
 					return firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password)
 				}
@@ -28,10 +22,6 @@ module.exports = {
 				token = idToken;
 				const newUserData = {
 					userId: userId,
-					// personalInfo: {
-					//     firstname: newUser.firstname,
-					//     lastname: newUser.lastname,
-					// },
 					firstname: newUser.firstname,
 					lastname: newUser.lastname,
 					username: newUser.username,
@@ -93,10 +83,10 @@ module.exports = {
 		} else {
 			console.log(userData.loginID)
 			firebase.auth().signInWithEmailAndPassword(userData.loginID, userData.password)
-			.then((userData) => {
-				return userData.user.getIdToken();
-			})
-			.then((token) => {
+				.then((userData) => {
+					return userData.user.getIdToken();
+				})
+				.then((token) => {
 					idToken = token;
 					return firestore.collection(`users`).where("email", "==", userData.loginID).get();
 				})
@@ -105,11 +95,11 @@ module.exports = {
 						idToken,
 						user: userQuery.docs[0].data()
 					});
-			})
+				})
 				.catch((fsError) => {
 					fsError.status = fsError.status || 400;
 					next(fsError);
-			});
+				});
 		}
 	},
 
@@ -124,8 +114,9 @@ module.exports = {
 					});
 				})
 				.catch((fsError) => {
-
-			});
+					console.log(fsError);
+					next(fsError);
+				});
 		} else {
 			const commentsOrderDirection = req.query.commentsDort || "desc";
 			const likesOrderDirection = req.query.likesDort || "desc";
@@ -154,7 +145,8 @@ module.exports = {
 				})
 				.catch((fsError) => {
 					console.log(fsError);
-			});
+					next(fsError);
+				});
 		}
 	},
 
@@ -173,17 +165,15 @@ module.exports = {
 						return userSnapshot.ref.update(updatedUserData);
 					}
 				})
-				.then((arguments) => {
-			res.json({
-				message: "Edit user profile",
+				.then(() => {
+					res.json({
+						message: "Edit user profile",
 						updatedUserData
 					});
 				})
 				.catch((fsError) => {
 					next(fsError);
-			});
+				});
 		}
 	}
-
-
 };
