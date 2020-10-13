@@ -18,11 +18,11 @@ app.use('/api/users', userRouter);
 app.use('/api/books', bookRouter);
 
 app.use((error, req, res, next) => {
-	console.log(error);
-	console.log(error.message);
+	// console.log(error);
+	// console.log(error.message);
 	const status = error.status || 500;
-	const { code, message } = error;
-	res.status(status).json({ code, message });
+	const { name, code, message } = error;
+	res.status(status).json({ name, status, code, message });
 	next();
 })
 
