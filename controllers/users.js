@@ -1,49 +1,67 @@
 const { firebaseAdmin, firestore, firebase } = require('../database/database');
+
+const { validationResult } = require('express-validator');
 const error = require('../utils/errors/error');
 const userMessages = require('../utils/errors/userErrors');
 
+function validateUserInfo(req, res) {
+
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		const userRegistrationError = { ...userMessages.userRegistrationError };
+		userRegistrationError.message = errors.array();
+		return false;
+	}
+
+	return true;
+}
+
 module.exports = {
 	register: (req, res, next) => {
-		const newUser = { ...req.body };
-		let userId, token;
-		firestore.doc(`/users/${newUser.username}`).get()
-			.then((user) => {
-				if (user.exists) {
-					next(new error(userMessages.userUsernameInUse));
-				} else {
+		if (validateUserInfo(req, res, next)) {
+			const newUser = { ...req.body };
+			let userId, token;
+			firestore.doc(`/users/${newUser.username}`).get()
+				.then((userSnapshot) => {
+					if (userSnapshot.exists) {
+						next(new error(userMessages.userUsernameInUse));
+					} else {
+						return firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password)
+					}
 					return firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password)
-				}
-			})
-			.then((userData) => {
-				userId = userData.user.uid;
-				return userData.user.getIdToken();
-			})
-			.then((idToken) => {
-				token = idToken;
-				const newUserData = {
-					userId: userId,
-					firstname: newUser.firstname,
-					lastname: newUser.lastname,
-					username: newUser.username,
-					email: newUser.email,
-					// imageUrl: 'image',
-					role: "user",
-					registeredAt: new Date().toISOString()
-				}
-				return firestore.doc(`/users/${newUser.username}`).set(newUserData);
-			})
-			.then((arguments) => {
-				console.log(arguments);
-				res
-					.status(201)
-					.json({
-						token
-					});
-			})
-			.catch((fsError) => {
-				fsError.status = fsError.status || 400;
-				next(fsError);
-			});
+				})
+				.then((userData) => {
+					userId = userData.user.uid;
+					return userData.user.getIdToken();
+				})
+				.then((idToken) => {
+					token = idToken;
+					const newUserData = {
+						userId: userId,
+						firstname: newUser.firstname,
+						lastname: newUser.lastname,
+						username: newUser.username,
+						email: newUser.email,
+						// imageUrl: 'image',
+						role: "user",
+						registeredAt: new Date().toISOString()
+					}
+					return firestore.doc(`/users/${newUser.username}`).set(newUserData);
+				})
+				.then((arguments) => {
+					// console.log(arguments);
+					res
+						.status(201)
+						.json({
+							token
+						});
+				})
+				.catch((fsError) => {
+					fsError.status = fsError.status || 400;
+					next(fsError);
+				});
+		}
 	},
 
 	login: (req, res, next) => {
