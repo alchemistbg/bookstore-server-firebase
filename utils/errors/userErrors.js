@@ -35,5 +35,12 @@ module.exports = {
         status: 400,
         code: 'auth/username-already-in-use',
         message: 'The username is already in use!'
+    },
+
+    userRegistrationError: {
+        name: 'Invalid registration data',
+        status: 422,
+        code: 'user/user-invalid-registration-data',
+        message: ''
     }
 }
