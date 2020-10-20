@@ -1,4 +1,4 @@
-// const errorName = 'Comment error';
+const errorName = 'Comment error';
 
 module.exports = {
 
@@ -10,7 +10,7 @@ module.exports = {
     // },
 
     commentNotFound: {
-        name: 'Comment error',
+        name: errorName,
         status: 404,
         code: 'comment/comment-not-found',
         message: 'Comment not found!'
