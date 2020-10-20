@@ -1,4 +1,4 @@
-// const errorName = 'User error';
+const errorName = 'User error';
 
 module.exports = {
 
@@ -9,36 +9,43 @@ module.exports = {
     //     message:''
     // },
 
+    userUsernameInUse: {
+        name: errorName,
+        status: 400,
+        code: 'auth/username-already-in-use',
+        message: 'The username is already in use!'
+    },
+
     userUnauthenticated: {
-        name: 'Unauthenticated',
+        name: errorName,
         status: 401,
         code: 'user/user-unauthenticated',
         message: 'User is not authenticated!'
     },
 
     userUnauthorized: {
-        name: 'Unauthorized',
+        name: errorName,
         status: 403,
         code: 'user/user-unauthorized',
         message: 'User is not authorized!'
     },
 
     userInvalidToken: {
-        name: 'Invalid token',
+        name: errorName,
         status: 403,
         code: 'auth/user-invalid-token',
         message: 'Error while verifying token'
     },
 
-    userUsernameInUse: {
-        name: 'Invalid username',
-        status: 400,
-        code: 'auth/username-already-in-use',
-        message: 'The username is already in use!'
+    userUsernameNotFound: {
+        name: errorName,
+        status: 404,
+        code: 'user/user-unknown-username',
+        message: 'Could not find the username!'
     },
 
     userRegistrationError: {
-        name: 'Invalid registration data',
+        name: errorName,
         status: 422,
         code: 'user/user-invalid-registration-data',
         message: ''
