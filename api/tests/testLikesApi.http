@@ -1,0 +1,19 @@
+###
+# Like a book
+POST http://{{host}}/api/books/978054792822/likes HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+###
+# Dislike a book
+DELETE http://{{host}}/api/books/978054792823/likes HTTP/1.1
+Content-Type: application/json
+# Authorization: Bearer {{adminToken}}
+Authorization: Bearer {{userToken}}
+
+###
+# Get likes for a book - TODO
+GET http://{{host}}/api/books/978054792823/likes HTTP/1.1
+Content-Type: application/json
+# Authorization: Bearer {{adminToken}}
+# Authorization: Bearer {{userToken}}/

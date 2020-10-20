@@ -1,0 +1,20 @@
+###
+# Create comment for a book
+POST http://{{host}}/api/books/978054792823/comments HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+{
+    "commentText": "Comment one"
+}
+
+###
+# Get comments for a book
+GET http://{{host}}/api/books/978054792823/comments HTTP/1.1
+Content-Type: application/json
+
+###
+# Delete comment for a book
+DELETE http://{{host}}/api/books/978054792823/comment/9Wdd9gsfJRrDQEuNMhO4 HTTP/1.1
+Authorization: Bearer {{adminToken}}
+# Authorization: Bearer {{userToken}}
