@@ -16,9 +16,9 @@ Authorization: Bearer {{adminToken}}
 # Authorization: Bearer {{userToken}}
 
 {
-	"title": "The Hobbit",
+	"title": "The Hobbit - 123",
 	"author": "J.R.R. Tolkien",
-	"isbn": "9780547928267",
+	"isbn": "978054792826723",
 	"description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, vero doloribus dolore sequi temporibus optio sed soluta debitis laudantium perferendis! Voluptate ipsam saepe quisquam. Dolores ex assumenda dolorem exercitationem deleniti.",
 	"pages": 320,
 	"price": 29.99,
@@ -31,30 +31,30 @@ Authorization: Bearer {{adminToken}}
 
 ###
 # Get book data with comments sorted using default settings
-GET http://{{host}}/api/books/9780547928226 HTTP/1.1
+GET http://{{host}}/api/books/978054792822 HTTP/1.1
 Content-Type: application/json
 
 ###
 # Get book data with sorted comments by creation time in descending order
-GET http://{{host}}/api/books/9780547928227?sortComments=true&sortBy=createdAt&sortDirection=desc HTTP/1.1
+GET http://{{host}}/api/books/978054792823?sortComments=true&sortBy=createdAt&sortDirection=desc HTTP/1.1
 Content-Type: application/json
 
 ###
 # Updates a book information
-PATCH http://{{host}}/api/books/978054792822 HTTP/1.1
+PATCH http://{{host}}/api/books/978054792823 HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer {{adminToken}}
-# Authorization: Bearer {{userToken}}
+# Authorization: Bearer {{adminToken}}
+Authorization: Bearer {{userToken}}
 
 {
 	"title": "The Hobbit",
 	"author": "J.R.R. Tolkien",
-	"isbn": "978054792822",
+	"isbn": "978054792823",
 	"description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, vero doloribus dolore sequi temporibus optio sed soluta debitis laudantium perferendis! Voluptate ipsam saepe quisquam. Dolores ex assumenda dolorem exercitationem deleniti.",
 	"pages": 620,
 	"price": 29.99,
 	"currency": "USD",
-	"qty": 10,
+	"qty": 100,
 	"sales": 0,
 	"likes": 0,
 	"comments": 0
@@ -63,45 +63,7 @@ Authorization: Bearer {{adminToken}}
 
 ###
 # Delete a book
-DELETE http://{{host}}/api/books/978054792822 HTTP/1.1
+DELETE http://{{host}}/api/books/978054792826723 HTTP/1.1
 # DELETE http://{{host}}/api/books/9780547928210 HTTP/1.1
 Authorization: Bearer {{adminToken}}
 # Authorization: Bearer {{userToken}}
-
-###
-# Create comment for a book
-POST http://{{host}}/api/books/978054792823/comments HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{userToken}}
-
-{
-    "commentText": "Comment 9855984"
-}
-
-###
-# Get a comments for a book
-GET http://{{host}}/api/books/978054792823/comments HTTP/1.1
-Content-Type: application/json
-
-###
-# Delete a comment for a book
-DELETE http://{{host}}/api/books/978054792823/comment/JjSsbwiJZIDS3JKE15Cx3 HTTP/1.1
-Authorization: Bearer {{adminToken}}
-
-###
-# Like a book
-POST http://{{host}}/api/books/978054792823/likes HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{userToken}}
-
-###
-# Get likes for a book - TODO
-GET http://{{host}}/api/books/978054792823/likes HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{userToken}}
-
-###
-# Dislike a book
-DELETE http://{{host}}/api/books/978054792823/likes HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{userToken}}
